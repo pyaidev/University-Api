@@ -122,6 +122,8 @@ class AccountListView(generics.ListAPIView):
             count = queryset.count()
             return Response({'success': True, 'count': count, 'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'success': False, 'data': 'queryset does not match'}, status=status.HTTP_404_NOT_FOUND)
+
+
 class SetNewPasswordView(generics.UpdateAPIView):
     # http://127.0.0.1:8000/api/accounts/v1/set-password/
     serializer_class = SetNewPasswordSerializer

@@ -17,7 +17,7 @@ class Tag(models.Model):
 
 
 class Blog(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
     title = models.CharField(max_length=221)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='blog/')

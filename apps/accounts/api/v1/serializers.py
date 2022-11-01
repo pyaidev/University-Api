@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework import serializers
 from django.contrib.auth import authenticate
@@ -86,6 +87,7 @@ class AccountUpdateSerializer(serializers.ModelSerializer):
         model = Account
         fields = ('id', 'full_name', 'username', 'image_url', 'email', 'phone', 'role')
 
+
 class AccountOwnImageUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -115,3 +117,4 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
 
         user.set_password(password)
         user.save()
+        return attrs
