@@ -11,7 +11,7 @@ class AccountCreationForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('username', )
+        fields = ('username', 'role', )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
@@ -35,7 +35,7 @@ class AccountChangeForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('username', 'email', 'full_name', 'phone', 'image', 'is_superuser', 'is_staff', 'is_active')
+        fields = ('username', 'email', 'full_name', 'phone', 'image', 'role', 'is_superuser', 'is_staff', 'is_active')
 
     def __init__(self, *args, **kwargs):
         super(AccountChangeForm, self).__init__(*args, **kwargs)

@@ -36,12 +36,18 @@ class Account(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('Account')
         verbose_name_plural = _('Accounts')
+    ROLE = (
+        (0, 'stuff'),
+        (1, 'student'),
+        (2, 'teacher'),
+    )
 
     username = models.CharField(max_length=50, unique=True, verbose_name=_('Username'), db_index=True)
     email = models.EmailField(max_length=50, unique=True, verbose_name=_('Email'), db_index=True, null=True, blank=True)
     full_name = models.CharField(max_length=50, verbose_name=_('Full name'), null=True)
     phone = models.CharField(max_length=16, verbose_name=_('Phone Number'), null=True)
     image = models.ImageField(upload_to='accounts/', verbose_name=_('Account image'), null=True, blank=True)
+    role = models.IntegerField(choices=ROLE, default=0)
     is_superuser = models.BooleanField(default=False, verbose_name=_('Super user'))
     is_staff = models.BooleanField(default=False, verbose_name=_('Staff user'))
     is_active = models.BooleanField(default=True, verbose_name=_('Active user'))

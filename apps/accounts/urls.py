@@ -30,10 +30,3 @@ urlpatterns = [
          name='password_change_done'),
 ]
 
-"""
-from django.contrib.auth import views as auth_view
-1 - Submit email form                       // PasswordResetView.as_view()
-2 Email sent success message                // PasswordResetDoneView.as_view()
-3 - Link to password Rest form in email     // PasswordResetConfirmView.as_view()
-4 - Password successfully changed message   // PasswordResetCompleteView.as_view()
-"""
