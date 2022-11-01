@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Register {% endblock %}
+
+{% block content %}
+
+    <section class="site-hero site-sm-hero overlay" data-stellar-background-ratio="0.5"
+             style="background-image:url(images/xbig_image_2.jpg.pagespeed.ic.d0K7QMgYm1.jpg)">
+        <div class="container">
+            <div class="row align-items-center justify-content-center site-hero-sm-inner">
+                <div class="col-md-7 text-center">
+                    <div class="mb-5 element-animate">
+                        <h1 class="mb-2">Register</h1>
+                        <p class="bcrumb"><a href="../index-2.html">Home</a> <span
+                                class="sep ion-android-arrow-dropright px-2"></span> <span
+                                class="current">Register</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="site-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="form-wrap">
+                        <h2 class="mb-5">Register new account</h2>
+                        <form  method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <select class="form-control mb-3" name="role" id="role-select">
+                                <option value="0">Stuff</option>
+                                <option value="1">Teacher</option>
+                                <option value="2" selected>Student</option>
+                            </select>
+                                <div class="col-md-6 form-group">
+                                    <input type="submit" value="Register" class="btn btn-primary px-5 py-2">
+                                </div>
+                            <p>I have already an account, <a href="{% url 'account:login' %}">login</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

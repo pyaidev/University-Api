@@ -1,0 +1,160 @@
+    <!DOCTYPE html>
+    {% load static %}
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+        <!-- ======= Styles ====== -->
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    </head>
+
+    <body>
+    <!-- =============== Navigation ================ -->
+
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li></li>
+                <li>
+                    <a href="/">
+                            <span class="icon">
+                                <ion-icon name="home-outline"></ion-icon>
+                            </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'profiles:my-courses' %}">
+                            <span class="icon">
+                                <ion-icon name="chatbubble-outline"></ion-icon>
+                            </span>
+                        <span class="title">My Courses</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/profile/">
+                            <span class="icon">
+                                <ion-icon name="settings-outline"></ion-icon>
+                            </span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'account:logout' %}">
+                            <span class="icon">
+                                <ion-icon name="log-out-outline"></ion-icon>
+                            </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </div>
+                <div>{{ request.user.profile.full_name }}</div>
+                <div class="user">
+                    {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="">
+                        {% else %}
+                        <span>no image</span>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <!-- ======================= Cards ================== -->
+
+
+            <!-- ================ Order Details List ================= -->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>User Detail</h2>
+                        <hr>
+                        <!-- <a href="#" class="btn">View All</a> -->
+                    </div>
+                    <hr style="margin: 15px 0">
+                    <h3 style="margin-bottom: 20px">{{ user.full_name }} -> {{ user.get_role_display }}</h3>
+
+                    <form action="" method="post" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="form-control" style="padding: 10px 20px; margin-bottom: 10px">Save</button>
+                    </form>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Registration date</td>
+                            <td>{{ user.date_joined }} </td>
+
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td>First Name</td>
+                            <td>{{ user.first_name }}</td>
+
+                        </tr>
+                        </tbody>
+
+                        <tbody>
+                        <tr>
+                            <td>Last name</td>
+                            <td>{{ user.last_name }}</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Username</td>
+                            <td>{{ user.username }}</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>{{ user.email }}</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Phone number</td>
+                            <td>{{ user.phone }}</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Skills</td>
+                            <td>{{ user.skills }}</td>
+
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========== Scripts =========  -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    </body>
+
+    </html>

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+
+
+    <section class="site-hero site-sm-hero overlay" data-stellar-background-ratio="0.5"
+             style="background-image:url({% static 'images/xbig_image_2.jpg.pagespeed.ic.d0K7QMgYm1.jpg' %})">
+        <div class="container">
+            <div class="row align-items-center justify-content-center site-hero-sm-inner">
+                <div class="col-md-7 text-center">
+                    <div class="mb-5 element-animate">
+                        <h1 class="mb-2">About Us</h1>
+                        <p class="bcrumb"><a href="index-2.html">Home</a> <span
+                                class="sep ion-android-arrow-dropright px-2"></span> <span
+                                class="current">About Us</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% for about in abouts %}
+        <section class="site-section element-animate">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 order-md-2">
+                        <div class="block-16">
+                            <figure>
+                                <img src="{{ about.image.url }}" alt="Image placeholder" class="img-fluid">
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="col-md-6 order-md-1">
+                        <div class="block-15">
+                            <div class="heading">
+                                <h2>{{ about.title }}</h2>
+                            </div>
+                            <div class="text mb-5">
+                                <p>{{ about.description|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+
+    <section class="site-section pt-3 element-animate">
+        <div class="container">
+            <div class="row justify-content-center mb-5 element-animate">
+                <div class="col-md-7 text-center section-heading">
+                    <h2 class="text-primary heading">School Services</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit qui neque sint eveniet tempore
+                        sapiente.</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for service in services %}
+                    <div class="col-md-6 col-lg-3">
+                        <div class="media block-6 d-block">
+                            <div class="icon mb-3"><img src="{{ service.service_icon.url }}" height="50px" width="50px"
+                                                        alt=""></div>
+                            <div class="media-body">
+                                <h3 class="heading">{{ service.service_title }}</h3>
+                                <p>{{ service.service_content|slice:"30" }}</p>
+                                <p><a href="#" class="more">Read More <span class="ion-arrow-right-c"></span></a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <div class="container site-section element-animate">
+        <div class="row justify-content-center mb-5 element-animate">
+            <div class="col-md-7 text-center section-heading">
+                <h2 class="text-primary heading">Why Choose Us</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit qui neque sint eveniet tempore
+                    sapiente.</p>
+            </div>
+        </div>
+        {% for reason in reasons %}
+            {% if forloop.counter0|divisibleby:2 %}
+                <div class="block-3 d-md-flex pt-5">
+                    <div class="image" style="background-image:url({{ reason.reason_image.url }})"></div>
+                    <div class="text">
+                        <h4 class="subheading">Nice text here</h4>
+                        <h2 class="heading">{{ reason.reason_title }}</h2>
+                        <p>{{ reason.reason_content }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="block-3 d-md-flex">
+                    <div class="image order-2" style="background-image:url({{ reason.reason_image.url }})"></div>
+                    <div class="text order-1">
+                        <h4 class="subheading">Nice text here</h4>
+                        <h2 class="heading">{{ reason.reason_title }}</h2>
+                        <p>{{ reason.reason_content }}</p>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    <div class="site-section element-animate">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-7 text-center section-heading">
+                    <h2 class="text-primary heading">Frequently Ask Questions</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit qui neque sint eveniet tempore
+                        sapiente.</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for faq in faqs %}
+                    <div class="col-md-12">
+                        <div class="accordion block-8" id="accordion">
+
+                            <div class="accordion-item">
+                                <h3 class="mb-0 heading">
+                                    <a class="btn-block" data-toggle="collapse" href="#collapseOne" role="button"
+                                       aria-expanded="true" aria-controls="collapseOne">{{ faq.question }}<span
+                                            class="icon"></span></a>
+                                </h3>
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                     data-parent="#accordion">
+                                    <div class="body-text">
+                                        <p>{{ faq.answer }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    {% include 'subscribe.html' %}
+
+{% endblock %}

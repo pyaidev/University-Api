@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+{% block title %} Blog {% endblock %}
+
+{% block content %}
+
+    <section class="site-hero site-sm-hero overlay" data-stellar-background-ratio="0.5"
+             style="background-image:url({% static 'images/xbig_image_2.jpg.pagespeed.ic.d0K7QMgYm1.jpg' %})">
+        <div class="container">
+            <div class="row align-items-center justify-content-center site-hero-sm-inner">
+                <div class="col-md-7 text-center">
+                    <div class="mb-5 element-animate">
+                        <h1 class="mb-2">Our Blog</h1>
+                        <p class="bcrumb"><a href="/">Home</a> <span
+                                class="sep ion-android-arrow-dropright px-2"></span> <span class="current">Blog</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="site-section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8 order-md-2">
+                    <div class="row">
+                        {% for post in posts %}
+                        <div class="col-md-12 col-lg-6 mb-5">
+                            <div class="block-20 ">
+                                <figure>
+                                    <a href="/blog/{{ post.id }}/"><img src="{{ post.image.url }}"
+                                                                    alt="{{ post.image.name }}" class="img-fluid"></a>
+                                </figure>
+                                <div class="text">
+                                    <h3 class="heading"><a href="/blog/{{ post.id }}/">{{ post.title }}</a></h3>
+                                    <div class="meta">
+                                        <div><a href="/blog/?date={{ post.created_at|date:'Y-m-d' }}"><span class="ion-android-calendar"></span>{{ post.created_at.date }}</a>
+                                        </div>
+                                        <div><a href="/blog/?author={{ post.author.get_full_name }}"><span class="ion-android-person"></span> {{ post.author.username }}</a></div>
+                                        <div><a href="/blog/{{ post.id }}/#comments"><span class="ion-chatbubble"></span> 19</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col-md-12 text-center">
+                            <div class="block-27">
+                                <ul>
+                                    <li><a href="#">&lt;</a></li>
+                                    <li class="active"><span>1</span></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">&gt;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 order-md-1">
+                    <div class="block-24 mb-5">
+                        <h3 class="heading">Categories</h3>
+                        {% sidebar_categories as sidebar_categories %}
+                        <ul>
+                            {% for category in sidebar_categories %}
+                                <li><a href="/blog/?cat={{ category.title }}">{{ category.title }}
+                                    <span>{{ category.course_set.all.count }}</span></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="block-25 mb-5">
+                        <div class="heading">Recent Courses</div>
+
+                        {% sidebar_posts as sidebar_posts %}
+                        <ul>
+                            {% for recent in sidebar_posts %}
+                                <li>
+                                    <a href="/blog/{{ recent.id }}/" class="d-flex">
+                                        <figure class="image mr-3">
+                                            <img src="{{ recent.image.url }}" alt="{{ recent.image.name }}"
+                                                 class="img-fluid">
+                                        </figure>
+                                        <div class="text">
+                                            <h3 class="heading">{{ recent.title }}</h3>
+                                            <span class="meta">Free</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+                    <div class="block-26">
+                        <h3 class="heading">Tags</h3>
+                        {% sidebar_tags as sidebar_tags %}
+                        <ul>
+                            {% for tag in sidebar_tags %}
+                                <li><a href="/blog/?tag={{ tag.title }}">{{ tag.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% include 'subscribe.html' %}
+
+{% endblock %}

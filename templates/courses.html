@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+{% block title %} Blog {% endblock %}
+
+{% block content %}
+
+    <section class="site-hero site-sm-hero overlay" data-stellar-background-ratio="0.5"
+             style="background-image:url({% static 'images/xbig_image_2.jpg.pagespeed.ic.d0K7QMgYm1.jpg' %})">
+        <div class="container">
+            <div class="row align-items-center justify-content-center site-hero-sm-inner">
+                <div class="col-md-7 text-center">
+                    <div class="mb-5 element-animate">
+                        <h1 class="mb-2">Our Courses</h1>
+                        <p class="bcrumb"><a href="/">Home</a> <span
+                                class="sep ion-android-arrow-dropright px-2"></span> <span class="current">Course</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="site-section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8 order-md-2">
+                    <div class="row">
+                        {% for post in posts %}
+                            <div class="col-md-12 col-lg-6 mb-5">
+                                <div class="block-20 ">
+                                    <figure>
+                                        <a href="{% url 'course:detail' post.id %}"><img src="{{ post.image.url }}"
+                                                                               alt="{{ post.image.name }}"
+                                                                               class="img-fluid"></a>
+                                    </figure>
+                                    <div class="text">
+                                        <h3 class="heading"><a href="{% url 'course:detail' post.id %}">{{ post.title }}</a></h3>
+                                        <div class="meta">
+                                            <div><a href="/courses/?date={{ post.created_at|date:'Y-m-d' }}"><span
+                                                    class="ion-android-calendar"></span>{{ post.created_at.date }}</a>
+                                            </div>
+                                            <div><a href="/courses/?author={{ post.author.account.username }}"><span
+                                                    class="ion-android-person"></span> {{ post.author.full_name }}</a>
+                                            </div>
+                                            <div>
+                                                <button class="form-control btn btn-primary c-btn" data-cid="{{ post.id }}">
+                                                    {% if post.id in my_course_id_list %}
+                                                        -
+                                                    {% else %}
+                                                        +
+                                                    {% endif %}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 order-md-1">
+                    <div class="block-24 mb-5">
+                        <h3 class="heading">Categories</h3>
+                        {% sidebar_categories as sidebar_categories %}
+                        <ul>
+                            {% for category in sidebar_categories %}
+                                <li><a href="/courses/?cat={{ category.title }}">{{ category.title }}
+                                    <span>{{ category.course_set.all.count }}</span></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="block-25 mb-5">
+                        <div class="heading">Recent Courses</div>
+
+
+                        <ul>
+                            {% for recent in recent_courses %}
+                                <li>
+                                    <a href="{% url 'course:detail' recent.id %}" class="d-flex">
+                                        <figure class="image mr-3">
+                                            <img src="{{ recent.image.url }}" alt="{{ recent.image.name }}"
+                                                 class="img-fluid">
+                                        </figure>
+                                        <div class="text">
+                                            <h3 class="heading">{{ recent.title }}</h3>
+                                            <span class="meta">Free</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+                    <div class="block-26">
+                        <h3 class="heading">Tags</h3>
+                        {% sidebar_tags as sidebar_tags %}
+                        <ul>
+                            {% for tag in sidebar_tags %}
+                                <li><a href="/courses/?tag={{ tag.title }}">{{ tag.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% include 'subscribe.html' %}
+
+
+
+
+
+{% endblock %}

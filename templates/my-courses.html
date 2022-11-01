@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+    <!-- ======= Styles ====== -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+</head>
+
+<body>
+<!-- =============== Navigation ================ -->
+
+<div class="container">
+    <div class="navigation">
+        <ul>
+            <li></li>
+            <li>
+                <a href="/">
+                        <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                        </span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'profiles:my-courses' %}">
+                        <span class="icon">
+                            <ion-icon name="chatbubble-outline"></ion-icon>
+                        </span>
+                    <span class="title">My Courses</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/profile/">
+                        <span class="icon">
+                            <ion-icon name="settings-outline"></ion-icon>
+                        </span>
+                    <span class="title">Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'account:logout' %}">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                    <span class="title">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ========================= Main ==================== -->
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+            <div>{{ request.user.profile.full_name }}</div>
+            <div class="user">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" alt="">
+                {% else %}
+                    <span>no image</span>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- ======================= Cards ================== -->
+
+
+        <!-- ================ Order Details List ================= -->
+        <div class="details">
+            <div class="recentOrders">
+                <div class="cardHeader">
+                    <h2>My Courses</h2>
+                    <hr>
+                </div>
+
+
+                <div class="row">
+                    {% for course in courses %}
+                        <div class="col-md-12 col-lg-6 mb-5" style="margin-bottom: 20px">
+                            <div class="block-20 ">
+                                <figure>
+                                    <a href="/courses/{{ course.course.id }}/"><img src="{{ course.course.image.url }}"
+                                                                                    style="width: 100%"
+                                                                                    alt="{{ course.course.image.name }}"
+                                                                                    class="img-fluid"></a>
+                                </figure>
+                                <div class="text">
+                                    <h3 class="heading"><a
+                                            href="/courses/{{ course.course.id }}/">{{ course.course.title }}</a></h3>
+                                    <div class="meta">
+                                        <div><a href="/courses/?date={{ course.course.created_at|date:'Y-m-d' }}"><span
+                                                class="ion-android-calendar"></span>{{ post.created_at.date }}</a>
+                                        </div>
+                                        <div>
+                                            <a href="/courses/?author={{ course.course.author.account.username }}"><span
+                                                    class="ion-android-person"></span> {{ post.author.full_name }}</a>
+                                        </div>
+                                        <div>
+                                            <button class="form-control btn btn-primary c-btn" data-cid="{{ course.course.id }}" style="padding: 10px 15px; margin-top: 10px; cursor: pointer">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =========== Scripts =========  -->
+
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script>
+
+        $('.c-btn').on('click', function (){
+            let _cid = $(this).data('cid')
+            $.ajax({
+                url: '/courses/add-course/',
+                data: {
+                    _cid
+                },
+                success: function (res) {
+                    alert(res.message)
+                    location.reload()
+                }
+            })
+        })
+
+
+    </script>
+
+
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

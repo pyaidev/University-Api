@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+{% block title %}Blog single{% endblock %}
+
+{% block content %}
+
+    <section class="site-hero site-sm-hero overlay" data-stellar-background-ratio="0.5"
+             style="background-image:url({% static 'images/xbig_image_2.jpg.pagespeed.ic.d0K7QMgYm1.jpg' %})">
+        <div class="container">
+            <div class="row align-items-center justify-content-center site-hero-sm-inner">
+                <div class="col-md-12 text-center">
+                    <div class="mb-5 element-animate">
+                        <h1 class="mb-2">Even the all-powerful Pointing has no control about the blind texts</h1>
+                        <p class="bcrumb">by <a href="/blog/?author={{ post.author.username }}">
+                            {% if post.author.get_full_name %}{{ post.author.get_full_name }}{% else %}
+                                {{ post.author.username }}{% endif %}</a> on <a
+                                href="/blog/?date={{ post.created_at|date:"Y-m-d" }}">{{ post.created_at.date }}</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="site-section bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8 order-md-2 pl-lg-5">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 mb-5">
+                            <p class="lead">{{ post.content|safe }}</p>
+                            <div class="pt-5">
+                                <p>Categories: <a href="/blog/?cat={{ post.category }}">{{ post.category }}</a>, Tags:
+                                    {% for obj in post.tags.all %}
+                                        <a href="/blog/?tag={{ obj.title }}">#{{ obj.title }}</a>
+                                    {% endfor %}
+
+
+                                </p>
+                            </div>
+                            <div class="pt-5" id="comment-list">
+                                <h3 class="mb-5">{{ post.comment_set.all.count }} Comments</h3>
+
+
+                                <ul class="comment-list" >
+
+                                    {% for comment in comments %}
+                                        <li class="comment">
+                                            <div class="vcard bio">
+                                                {% if comment.author.avatar %}
+                                                    <img src="{{ comment.author.avatar.url }}"
+                                                         alt="{{ comment.author.avatar.name }}">
+                                                {% endif %}
+                                            </div>
+                                            <div class="comment-body">
+                                                <h3>{{ comment.author.full_name.title }}</h3>
+                                                <div class="meta">{{ comment.created_at }}</div>
+                                                <p>{{ comment.message }}</p>
+                                                <p><a href="#leave_comment" data-comment_id="{{ comment.id }}" data-top_level_comment_id="{{ comment.top_level_comment_id }}" class="reply">Reply</a></p>
+                                            </div>
+                                            {% if comment.get_children %}
+                                                <ul class="children">
+                                                    {% for item in comment.get_children %}
+                                                        <li class="comment">
+                                                            <div class="vcard bio">
+                                                                {% if item.author.avatar %}
+                                                                <img src="{{ item.author.avatar.url }}"
+                                                                     alt="{{ item.author.avatar.name }}">
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="comment-body">
+                                                                <h3>{{ item.author.full_name.title }} <code>replied to</code> {{ item.parent.author.full_name.title }}</h3>
+                                                                <div class="meta">{{ item.created_at }}</div>
+                                                                <p>{{ item.message }}</p>
+                                                                <p><a href="#leave_comment" data-comment_id="{{ item.id }}" data-top_level_comment_id="{{ item.top_level_comment_id }}" class="reply">Reply</a></p>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+
+
+                                <div class="comment-form-wrap pt-5">
+                                    <h3 class="mb-5" id="leave_comment">Leave a comment</h3>
+                                    <form method="post" class="bg-light">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="message">Message</label>
+                                            <input type="text" value="" name="comment_id" id="comment_id" hidden>
+                                            <input type="text" value="" name="top_level_comment_id" id="top_level_comment_id" hidden>
+                                            <textarea name="message" id="message" cols="30" rows="10"
+                                                      class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Post Comment" class="btn btn-primary">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 order-md-1">
+                    <div class="block-24 mb-5">
+                        <h3 class="heading">Categories</h3>
+                        {% sidebar_categories as sidebar_categories %}
+                        <ul>
+                            {% for category in sidebar_categories %}
+                                <li><a href="/blog/?cat={{ category.title }}">{{ category.title }}
+                                    <span>{{ category.course_set.all.count }}</span></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="block-25 mb-5">
+                        <div class="heading">Recent Courses</div>
+                        {% sidebar_posts as sidebar_posts %}
+                        <ul>
+                            {% for recent in sidebar_posts %}
+                                <li>
+                                    <a href="/blog/{{ recent.id }}/" class="d-flex">
+                                        <figure class="image mr-3">
+                                            <img src="{{ recent.image.url }}" alt="{{ recent.image.name }}"
+                                                 class="img-fluid">
+                                        </figure>
+                                        <div class="text">
+                                            <h3 class="heading">{{ recent.title }}</h3>
+                                            <span class="meta">Free</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="block-26">
+                        <h3 class="heading">Tags</h3>
+                        {% sidebar_tags as sidebar_tags %}
+                        <ul>
+                            {% for tag in sidebar_tags %}
+                                <li><a href="/blog/?tag={{ tag.title }}">{{ tag.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% include 'subscribe.html' %}
+
+    <script>
+        let btn = document.querySelectorAll('.reply');
+        let comment_id = document.querySelector('#comment_id');
+        let top_level_comment_id = document.querySelector('#top_level_comment_id');
+
+        btn.forEach(el => {
+            el.addEventListener('click', () => {
+                console.log('ishladi')
+                comment_id.value = el.dataset.comment_id;
+                top_level_comment_id.value = el.dataset.top_level_comment_id;
+            })
+        })
+
+    </script>
+
+{% endblock %}
