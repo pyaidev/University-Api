@@ -13,7 +13,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.author.full_name}s comment'
+        if self.author.full_name:
+            return f'{self.author.full_name}s comment'
+        return self.author.username
 
     @property
     def get_children(self):

@@ -1,0 +1,19 @@
+from rest_framework import status, views, generics, permissions
+from rest_framework.response import Response
+from ...models import Comment
+from .serializers import CommentSerializer
+
+
+class CommentListCreateView(generics.ListCreateAPIView):
+    # http://127.0.0.1:8000/api/comment/v1/<post_id list-create/
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_url_kwarg = 'post_id'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset().filter(parent__isnull=True)
+        post_id = self.kwargs.get(self.lookup_url_kwarg)
+        qs = qs.filter(post_id=post_id)
+
+        return qs
