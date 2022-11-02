@@ -11,6 +11,7 @@ class CommentListCreateView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
     lookup_url_kwarg = 'post_id'
+    pagination_class = None
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset().filter(parent__isnull=True)
