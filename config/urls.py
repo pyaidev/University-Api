@@ -48,7 +48,7 @@ urlpatterns = [
     # ADMIN
     path('admin/', admin.site.urls),
     # MVT Pattern
-    # path('', include('apps.university.urls', namespace='university')),
+    # path('t/', include('apps.university.urls', namespace='university')),
     # path('blog/', include('apps.blog.urls', namespace='blog')),
     # path('comment/', include('apps.comment.urls', namespace='comment')),
     # path('courses/', include('apps.course.urls', namespace='course')),

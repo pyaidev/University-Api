@@ -185,10 +185,11 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 1,
+    'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': auth_list,
     # [
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    #    https://www.appsloveworld.com › ...
+    # Перевести эту страницу #     'rest_framework_simplejwt.authentication.JWTAuthentication',
     #     'rest_framework.authentication.SessionAuthentication',
     #     'rest_framework.authentication.BasicAuthentication'
     # ],

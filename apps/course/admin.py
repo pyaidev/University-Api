@@ -1,11 +1,6 @@
 from django.contrib import admin
-from .models import Course, CourseDetail, Lesson
+from .models import Course, Lesson
 
-
-class CourseDetailInline(admin.TabularInline):
-    model = CourseDetail
-    extra = 1
-    max_num = 1
 
 
 class LessonInlineAdmin(admin.StackedInline):
@@ -14,7 +9,7 @@ class LessonInlineAdmin(admin.StackedInline):
 
 
 class CourseAdmin(admin.ModelAdmin):
-    inlines = [CourseDetailInline, LessonInlineAdmin]
+    inlines = [LessonInlineAdmin]
     list_display = ('id', 'title', 'category', 'author')
     list_filter = ('id', 'category')
     search_fields = ['title', 'author__username']

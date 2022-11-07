@@ -1,4 +1,4 @@
-from rest_framework import  serializers
+from rest_framework import serializers
 from ...models import Category, Tag, Blog
 
 
@@ -14,6 +14,7 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('id', 'title')
 
+
 class BlogSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.title', read_only=True)
     tag_names = serializers.SerializerMethodField(read_only=True, required=False)
@@ -24,6 +25,7 @@ class BlogSerializer(serializers.ModelSerializer):
         for i in tags:
             data.append({'title': i.title})
         return data
+
     class Meta:
         model = Blog
         fields = ('id', 'author', 'title', 'category','category_name', 'image', 'content', 'tags', 'tag_names', 'created_at')
@@ -36,3 +38,4 @@ class BlogSerializer(serializers.ModelSerializer):
             blog.tags.add(tag)
 
         return blog
+
